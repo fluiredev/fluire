@@ -1,7 +1,23 @@
 {
 	"name": "fluire",
 	"description": "Your Payments-as-Code solution",
+	"version": "0.0.1",
+	"type": "module",
+	"main": "dist/index.js",
+	"author": {
+		"name": "Matheus Landuci",
+		"email": "matheuslanduci@gmail.com",
+		"url": "https://matheuslanduci.com"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"scripts": {
+		"build": "bun build ./src/index.ts --outfile=dist/index.js --packages=external"
+	},
 	"dependencies": {
 		"stripe": "^17.5.0"
-	}
+	},
+	"keywords": ["payments", "stripe", "payments-as-code", "pac", "fluire"]
 }
