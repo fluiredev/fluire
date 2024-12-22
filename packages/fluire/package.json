@@ -21,14 +21,26 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "tsup",
-		"dev": "tsup --watch"
+		"dev": "tsup --watch",
+		"test": "vitest",
+		"test:watch": "vitest --watch",
+		"test:coverage": "vitest --coverage"
 	},
 	"devDependencies": {
+		"@vitest/coverage-istanbul": "2.1.8",
 		"tsup": "^8.3.5",
-		"typescript": "^5.7.2"
+		"typescript": "^5.7.2",
+		"vite-tsconfig-paths": "^5.1.4",
+		"vitest": "^2.1.8"
 	},
 	"dependencies": {
 		"stripe": "^17.5.0"
 	},
-	"keywords": ["payments", "stripe", "payments-as-code", "pac", "fluire"]
+	"keywords": [
+		"payments",
+		"stripe",
+		"payments-as-code",
+		"pac",
+		"fluire"
+	]
 }

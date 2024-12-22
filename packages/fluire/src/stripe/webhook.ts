@@ -1,3 +1,4 @@
+import { InstanceNotSetError } from './exceptions/instance-not-set'
 import { InvalidEventError } from './exceptions/invalid-event'
 import { InvalidEventTypeError } from './exceptions/invalid-event-type'
 import { InvalidEventsLengthError } from './exceptions/invalid-events-length'
@@ -47,6 +48,10 @@ export class Webhook<
 	public static Stripe: Stripe
 
 	public constructor(private readonly options: WebhookOptions<T>) {
+		if (!Webhook.Stripe) {
+			throw new InstanceNotSetError()
+		}
+
 		this.instance = Webhook.Stripe
 
 		if (options.events.length === 0) {
@@ -61,6 +66,8 @@ export class Webhook<
 					this.allowedEvents.push(
 						...webhookAliases[event as keyof WebhookAliases]
 					)
+
+					continue
 				}
 
 				this.allowedEvents.push(event)
