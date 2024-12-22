@@ -244,6 +244,8 @@ export type WebhookEvents = {
 	'treasury.received_debit.created': Stripe.TreasuryReceivedDebitCreatedEvent.Data
 }
 
+export type WebhookKey = keyof WebhookEvents
+
 export type WebhookEvent<T extends keyof WebhookEvents> = {
 	event: T
 	payload: WebhookEvents[T]
@@ -537,4 +539,274 @@ export type WebhookAliases = {
 		| 'treasury.received_credit.succeeded'
 		| 'treasury.received_debit.created'
 	>
+}
+
+export const webhookAliases = {
+	'account.*': [
+		'account.updated',
+		'account.application.authorized',
+		'account.application.deauthorized',
+		'account.external_account.created',
+		'account.external_account.deleted',
+		'account.external_account.updated'
+	],
+	'application_fee.*': [
+		'application_fee.created',
+		'application_fee.refunded',
+		'application_fee.refund.updated'
+	],
+	'balance.*': ['balance.available'],
+	'billing.*': ['billing.alert.triggered'],
+	'billing_portal.*': [
+		'billing_portal.configuration.created',
+		'billing_portal.configuration.updated',
+		'billing_portal.session.created'
+	],
+	'capability.*': ['capability.updated'],
+	'cash_balance.*': ['cash_balance.funds_available'],
+	'charge.*': [
+		'charge.captured',
+		'charge.expired',
+		'charge.failed',
+		'charge.pending',
+		'charge.refunded',
+		'charge.succeeded',
+		'charge.updated',
+		'charge.dispute.closed',
+		'charge.dispute.created',
+		'charge.dispute.funds_reinstated',
+		'charge.dispute.funds_withdrawn',
+		'charge.dispute.updated'
+	],
+	'checkout.*': [
+		'checkout.session.async_payment_failed',
+		'checkout.session.async_payment_succeeded',
+		'checkout.session.completed',
+		'checkout.session.expired'
+	],
+	'climate.*': [
+		'climate.order.canceled',
+		'climate.order.created',
+		'climate.order.delayed',
+		'climate.order.delivered',
+		'climate.order.product_substituted',
+		'climate.product.created',
+		'climate.product.pricing_updated'
+	],
+	'coupon.*': ['coupon.created', 'coupon.deleted', 'coupon.updated'],
+	'credit_note.*': [
+		'credit_note.created',
+		'credit_note.updated',
+		'credit_note.voided'
+	],
+	'customer.*': [
+		'customer.created',
+		'customer.updated',
+		'customer.deleted',
+		'customer.discount.created',
+		'customer.discount.updated',
+		'customer.discount.deleted',
+		'customer.source.created',
+		'customer.source.updated',
+		'customer.source.deleted',
+		'customer.source.expiring',
+		'customer.tax_id.created',
+		'customer.tax_id.updated',
+		'customer.tax_id.deleted',
+		'customer.subscription.created',
+		'customer.subscription.updated',
+		'customer.subscription.deleted',
+		'customer.subscription.trial_will_end',
+		'customer.subscription.pending_update_applied',
+		'customer.subscription.pending_update_expired'
+	],
+	'customer_cash_balance_transaction.*': [
+		'customer_cash_balance_transaction.created'
+	],
+	'entitlements.*': ['entitlements.active_entitlement_summary.updated'],
+	'file.*': ['file.created'],
+	'financial_connections.*': [
+		'financial_connections.account.created',
+		'financial_connections.account.deactivated',
+		'financial_connections.account.disconnected',
+		'financial_connections.account.reactivated',
+		'financial_connections.account.refreshed_balance',
+		'financial_connections.account.refreshed_ownership',
+		'financial_connections.account.refreshed_transactions'
+	],
+	'identity.*': [
+		'identity.verification_session.canceled',
+		'identity.verification_session.created',
+		'identity.verification_session.processing',
+		'identity.verification_session.redacted',
+		'identity.verification_session.requires_input',
+		'identity.verification_session.verified'
+	],
+	'invoice.*': [
+		'invoice.created',
+		'invoice.paid',
+		'invoice.payment_failed',
+		'invoice.payment_succeeded',
+		'invoice.upcoming',
+		'invoice.updated',
+		'invoice.voided',
+		'invoice.marked_uncollectible',
+		'invoice.payment_action_required',
+		'invoice.sent',
+		'invoice.deleted',
+		'invoice.finalization_failed',
+		'invoice.finalized',
+		'invoice.overdue',
+		'invoice.will_be_due'
+	],
+	'invoiceitem.*': ['invoiceitem.created', 'invoiceitem.deleted'],
+	'issuing.*': [
+		'issuing_authorization.created',
+		'issuing_authorization.request',
+		'issuing_authorization.updated',
+		'issuing_card.created',
+		'issuing_card.updated',
+		'issuing_cardholder.created',
+		'issuing_cardholder.updated',
+		'issuing_dispute.closed',
+		'issuing_dispute.created',
+		'issuing_dispute.funds_reinstated',
+		'issuing_dispute.funds_rescinded',
+		'issuing_dispute.submitted',
+		'issuing_dispute.updated',
+		'issuing_personalization_design.activated',
+		'issuing_personalization_design.deactivated',
+		'issuing_personalization_design.rejected',
+		'issuing_personalization_design.updated',
+		'issuing_token.created',
+		'issuing_token.updated',
+		'issuing_transaction.created',
+		'issuing_transaction.purchase_details_receipt_updated',
+		'issuing_transaction.updated'
+	],
+	'payment_intent.*': [
+		'payment_intent.amount_capturable_updated',
+		'payment_intent.canceled',
+		'payment_intent.created',
+		'payment_intent.partially_funded',
+		'payment_intent.payment_failed',
+		'payment_intent.processing',
+		'payment_intent.requires_action',
+		'payment_intent.succeeded'
+	],
+	'payment_link.*': ['payment_link.created', 'payment_link.updated'],
+	'payment_method.*': [
+		'payment_method.attached',
+		'payment_method.automatically_updated',
+		'payment_method.detached',
+		'payment_method.updated'
+	],
+	'payout.*': [
+		'payout.canceled',
+		'payout.created',
+		'payout.failed',
+		'payout.paid',
+		'payout.reconciliation_completed',
+		'payout.updated'
+	],
+	'person.*': ['person.created', 'person.deleted', 'person.updated'],
+	'plan.*': ['plan.created', 'plan.deleted', 'plan.updated'],
+	'price.*': ['price.created', 'price.deleted', 'price.updated'],
+	'product.*': ['product.created', 'product.deleted', 'product.updated'],
+	'promotion_code.*': ['promotion_code.created', 'promotion_code.updated'],
+	'quote.*': [
+		'quote.accepted',
+		'quote.canceled',
+		'quote.created',
+		'quote.finalized'
+	],
+	'radar.*': [
+		'radar.early_fraud_warning.created',
+		'radar.early_fraud_warning.updated'
+	],
+	'refund.*': ['refund.created', 'refund.failed', 'refund.updated'],
+	'reporting.*': [
+		'reporting.report_run.failed',
+		'reporting.report_run.succeeded',
+		'reporting.report_type.updated'
+	],
+	'review.*': ['review.closed', 'review.opened'],
+	'setup_intent.*': [
+		'setup_intent.canceled',
+		'setup_intent.created',
+		'setup_intent.requires_action',
+		'setup_intent.setup_failed',
+		'setup_intent.succeeded'
+	],
+	'sigma.*': ['sigma.scheduled_query_run.created'],
+	'source.*': [
+		'source.canceled',
+		'source.chargeable',
+		'source.failed',
+		'source.mandate_notification',
+		'source.refund_attributes_required',
+		'source.transaction.created',
+		'source.transaction.updated'
+	],
+	'subscription_schedule.*': [
+		'subscription_schedule.aborted',
+		'subscription_schedule.canceled',
+		'subscription_schedule.completed',
+		'subscription_schedule.created',
+		'subscription_schedule.expiring',
+		'subscription_schedule.released',
+		'subscription_schedule.updated'
+	],
+	'tax.*': ['tax.settings.updated', 'tax_rate.created', 'tax_rate.updated'],
+	'terminal.*': [
+		'terminal.reader.action_failed',
+		'terminal.reader.action_succeeded'
+	],
+	'test_helpers.*': [
+		'test_helpers.test_clock.advancing',
+		'test_helpers.test_clock.created',
+		'test_helpers.test_clock.deleted',
+		'test_helpers.test_clock.internal_failure',
+		'test_helpers.test_clock.ready'
+	],
+	'topup.*': [
+		'topup.canceled',
+		'topup.created',
+		'topup.failed',
+		'topup.reversed',
+		'topup.succeeded'
+	],
+	'transfer.*': ['transfer.created', 'transfer.reversed', 'transfer.updated'],
+	'treasury.*': [
+		'treasury.credit_reversal.created',
+		'treasury.credit_reversal.posted',
+		'treasury.debit_reversal.completed',
+		'treasury.debit_reversal.created',
+		'treasury.debit_reversal.initial_credit_granted',
+		'treasury.financial_account.closed',
+		'treasury.financial_account.created',
+		'treasury.financial_account.features_status_updated',
+		'treasury.inbound_transfer.canceled',
+		'treasury.inbound_transfer.created',
+		'treasury.inbound_transfer.failed',
+		'treasury.inbound_transfer.succeeded',
+		'treasury.outbound_payment.canceled',
+		'treasury.outbound_payment.created',
+		'treasury.outbound_payment.expected_arrival_date_updated',
+		'treasury.outbound_payment.failed',
+		'treasury.outbound_payment.posted',
+		'treasury.outbound_payment.returned',
+		'treasury.outbound_payment.tracking_details_updated',
+		'treasury.outbound_transfer.canceled',
+		'treasury.outbound_transfer.created',
+		'treasury.outbound_transfer.expected_arrival_date_updated',
+		'treasury.outbound_transfer.failed',
+		'treasury.outbound_transfer.posted',
+		'treasury.outbound_transfer.returned',
+		'treasury.outbound_transfer.tracking_details_updated',
+		'treasury.received_credit.created',
+		'treasury.received_credit.failed',
+		'treasury.received_credit.succeeded',
+		'treasury.received_debit.created'
+	]
 }
