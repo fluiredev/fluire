@@ -1,7 +1,7 @@
 {
 	"name": "fluire",
 	"description": "Your Payments-as-Code solution",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"type": "module",
 	"main": "dist/index.js",
 	"author": {
@@ -14,7 +14,11 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"build": "bun build ./src/index.ts --outfile=dist/index.js --packages=external"
+		"build": "tsup"
+	},
+	"devDependencies": {
+		"tsup": "^8.3.5",
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
 		"stripe": "^17.5.0"
