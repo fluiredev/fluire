@@ -4,6 +4,9 @@
     "declaration": true,
     "moduleResolution": "bundler",
     "outDir": "./dist",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true
   }
 }

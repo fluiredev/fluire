@@ -1,4 +1,3 @@
-import { InstanceNotAvailableError } from './exceptions/instance-not-available'
 import { InvalidEventError } from './exceptions/invalid-event'
 import { InvalidEventTypeError } from './exceptions/invalid-event-type'
 import { InvalidEventsLengthError } from './exceptions/invalid-events-length'
@@ -43,11 +42,13 @@ export class Webhook<
 > {
 	private allEventsAllowed = false
 	private allowedEvents: (keyof WebhookEvents | keyof WebhookAliases)[] = []
+	private readonly instance: Stripe
 
-	public constructor(
-		private readonly options: WebhookOptions<T>,
-		private readonly instance?: Stripe
-	) {
+	public static Stripe: Stripe
+
+	public constructor(private readonly options: WebhookOptions<T>) {
+		this.instance = Webhook.Stripe
+
 		if (options.events.length === 0) {
 			throw new InvalidEventsLengthError()
 		}
@@ -68,10 +69,6 @@ export class Webhook<
 	}
 
 	public async handle({ body, signature }: HandleFnParams): Promise<void> {
-		if (!this.instance) {
-			throw new InstanceNotAvailableError()
-		}
-
 		const event = this.instance.webhooks.constructEvent(
 			body,
 			signature,

@@ -7,9 +7,11 @@ export class StripeClient {
 
 	public constructor(key: string) {
 		this.instance = new Stripe(key)
+
+		Webhook.Stripe = this.instance
 	}
 
-	public get Webhook(): typeof Webhook {
-		return Webhook.bind(null, this.instance)
+	public get Webhook() {
+		return Webhook
 	}
 }
