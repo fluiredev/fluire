@@ -42,7 +42,7 @@ export class Webhook<
 	T extends Array<keyof WebhookEvents | keyof WebhookAliases>
 > {
 	private allEventsAllowed = false
-	private allowedEvents: WebhookKey[] = []
+	private allowedEvents: (keyof WebhookEvents | keyof WebhookAliases)[] = []
 
 	public constructor(
 		private readonly options: WebhookOptions<T>,
@@ -55,13 +55,15 @@ export class Webhook<
 		if (options.events.includes('*')) {
 			this.allEventsAllowed = true
 		} else {
-			this.allowedEvents = options.events.map((event) => {
+			for (const event of options.events) {
 				if (event in webhookAliases) {
-					return webhookAliases[event as keyof WebhookAliases]
+					this.allowedEvents.push(
+						...webhookAliases[event as keyof WebhookAliases]
+					)
 				}
 
-				return event
-			})
+				this.allowedEvents.push(event)
+			}
 		}
 	}
 

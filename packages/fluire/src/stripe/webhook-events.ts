@@ -541,7 +541,7 @@ export type WebhookAliases = {
 	>
 }
 
-export const webhookAliases = {
+export const webhookAliases: Record<keyof WebhookAliases, WebhookKey[]> = {
 	'account.*': [
 		'account.updated',
 		'account.application.authorized',
@@ -808,5 +808,7 @@ export const webhookAliases = {
 		'treasury.received_credit.failed',
 		'treasury.received_credit.succeeded',
 		'treasury.received_debit.created'
-	]
+	],
+	// The following line only exists to satisfy TypeScript's type system
+	'*': []
 }
