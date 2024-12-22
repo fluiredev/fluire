@@ -1,3 +1,4 @@
+import { InstanceNotAvailableError } from './exceptions/instance-not-available'
 import { InvalidEventError } from './exceptions/invalid-event'
 import { InvalidEventTypeError } from './exceptions/invalid-event-type'
 import { InvalidEventsLengthError } from './exceptions/invalid-events-length'
@@ -17,18 +18,22 @@ type ExtractEventType<T> = T extends keyof WebhookAliases
 		? WebhookEvent<T>
 		: never
 
+type WebhookHandlerFnParams = { stripe: Stripe }
+
 type WebhookOptions<
 	T extends Array<keyof WebhookEvents | keyof WebhookAliases>
 > = {
 	events: T
 	handle: ({
 		event,
-		payload
-	}: ExtractEventType<T[number]>) => void | Promise<void>
+		payload,
+		stripe
+	}: ExtractEventType<T[number]> &
+		WebhookHandlerFnParams) => void | Promise<void>
 	secret: string
 }
 
-type HandleParams = {
+type HandleFnParams = {
 	body: string | Buffer
 	signature: string | Buffer
 }
@@ -60,8 +65,12 @@ export class Webhook<
 		}
 	}
 
-	public async handle({ body, signature }: HandleParams): Promise<void> {
-		const event = this.instance?.webhooks.constructEvent(
+	public async handle({ body, signature }: HandleFnParams): Promise<void> {
+		if (!this.instance) {
+			throw new InstanceNotAvailableError()
+		}
+
+		const event = this.instance.webhooks.constructEvent(
 			body,
 			signature,
 			this.options.secret
@@ -77,7 +86,8 @@ export class Webhook<
 
 		await this.options.handle({
 			event: event.type,
-			payload: event.data
+			payload: event.data,
+			stripe: this.instance
 			// biome-ignore lint/suspicious/noExplicitAny: Unfornately, the type is too complex to be inferred
 		} as any)
 	}
