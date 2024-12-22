@@ -1,9 +1,15 @@
 {
 	"name": "fluire",
 	"description": "Your Payments-as-Code solution",
-	"version": "0.0.4",
+	"version": "0.0.6",
 	"type": "module",
 	"main": "dist/index.js",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
 	"author": {
 		"name": "Matheus Landuci",
 		"email": "matheuslanduci@gmail.com",
@@ -24,11 +30,5 @@
 	"dependencies": {
 		"stripe": "^17.5.0"
 	},
-	"keywords": [
-		"payments",
-		"stripe",
-		"payments-as-code",
-		"pac",
-		"fluire"
-	]
+	"keywords": ["payments", "stripe", "payments-as-code", "pac", "fluire"]
 }

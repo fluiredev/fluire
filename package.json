@@ -1,8 +1,8 @@
 {
 	"name": "@fluire/repository",
 	"description": "Your Payments-as-Code solution",
-	"packageManager": "bun@1.1.42",
-	"workspaces": ["packages/*"],
+  "type": "module",
+	"packageManager": "pnpm@9.15.0",
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"turbo": "2.3.3"
