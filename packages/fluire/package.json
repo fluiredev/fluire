@@ -1,0 +1,7 @@
+{
+	"name": "fluire",
+	"description": "Your Payments-as-Code solution",
+	"dependencies": {
+		"stripe": "^17.5.0"
+	}
+}
