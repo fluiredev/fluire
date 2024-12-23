@@ -1,4 +1,4 @@
-export class InstanceNotSetError extends Error {
+export class StripeNotSetError extends Error {
 	constructor() {
 		super('Instance is not set')
 	}

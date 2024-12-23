@@ -1,14 +1,20 @@
+import { Feature } from './feature'
 import { Webhook } from './webhook'
 
 import { Stripe } from 'stripe'
 
 export class StripeClient {
-	private readonly instance: Stripe
+	private readonly stripe: Stripe
 
 	public constructor(key: string) {
-		this.instance = new Stripe(key)
+		this.stripe = new Stripe(key)
 
-		Webhook.Stripe = this.instance
+		Feature.Stripe = this.stripe
+		Webhook.Stripe = this.stripe
+	}
+
+	public get Feature() {
+		return Feature
 	}
 
 	public get Webhook() {

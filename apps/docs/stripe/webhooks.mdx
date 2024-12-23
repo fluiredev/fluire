@@ -4,13 +4,15 @@ description: Type-safe webhooks
 icon: webhook
 ---
 
-Fluire provides a type-safe way to handle webhooks from Stripe. To use webhooks in your application, you need to create a new instance of the `Webhook` class and pass some configuration options.
-
 <Warning>
 Be sure you already have a Fluire instance in your application. If you don't have one, you can follow the [installation guide](/installation).
 </Warning>
 
-- `events`: An array of events you want to listen to. We recommend using the wildcard `*` to listen to all events. It also blocks other events that are not in the list, so be sure to include all the events you want to listen to.
+## Creating a webhook
+
+Fluire provides a type-safe way to handle webhooks from Stripe. To use webhooks in your application, you need to create a new instance of the `Webhook` class and pass some configuration options.
+
+- `events`: An array of events you want to listen to. It will block other events that are not in the list, so be sure to include all the events you want to listen to.
 - `secret`: The webhook secret you can find when you create your webhook (e.g., `whsec_**************`).
 - `handle`: A function that receives the event name, the payload, and the Stripe instance. Where you can handle the event and do whatever you want.
 
@@ -31,7 +33,44 @@ export const webhook = new fluire.stripe.Webhook({
 })
 ```
 
-Now you need to create a new endpoint in your application to receive the webhook events. You can use any web framework you want, but for this example, we'll use [Next.js](https://nextjs.org).
+## Registering the webhook
+
+If you want to register the webhook in the Stripe API, you can use our [Migration Tool](/core/migration). 
+You need to pass the URL of your webhook endpoint - you can put an environment variable to make it easier to change the URL in the future.
+
+```typescript
+// lib/webhooks.ts
+import { fluire } from './fluire'
+
+export const webhook = new fluire.stripe.Webhook({
+  events: ['invoice.*', 'checkout.*'],
+  secret: process.env.STRIPE_WEBHOOK_SECRET,
+  handle: async ({ event, payload, stripe }) => {
+    // Handle the event
+  },
+  url: process.env.STRIPE_WEBHOOK_URL
+})
+```
+
+<Note>
+Follow the [Migration](/core/migration) guide to learn how to set up Fluire migrations in your application.
+</Note>
+
+Run the migration command to create the webhook in the Stripe API.
+
+```bash
+fluire migrate
+```
+
+After the migration, you'll see the webhook secret in your terminal. You can copy it and paste it in your `.env` file.
+
+```bash
+The webhook secret is: whsec_**************
+```
+
+## Receiving webhooks
+
+In order to receive a webhook, you need to create a new endpoint in your application to receive the webhook events. You can use any web framework you want, but for this example, we'll use [Next.js](https://nextjs.org).
 
 ```typescript
 // app/api/webhook/route.ts

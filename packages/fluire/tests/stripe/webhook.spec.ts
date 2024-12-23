@@ -1,10 +1,11 @@
-import { InstanceNotSetError } from '~/stripe/exceptions/instance-not-set'
 import { InvalidEventsLengthError } from '~/stripe/exceptions/invalid-events-length'
 import { InvalidEventTypeError } from '~/stripe/exceptions/invalid-event-type'
 import { InvalidEventError } from '~/stripe/exceptions/invalid-event'
+import { StripeNotSetError } from '~/stripe/exceptions/stripe-not-set'
 import { Webhook } from '~/stripe/webhook'
 
 import Stripe from 'stripe'
+import { URLRequiredError } from '~/stripe/exceptions/url-required'
 
 describe('src/stripe/webhook.ts', () => {
 	describe('new Webhook()', () => {
@@ -32,7 +33,7 @@ describe('src/stripe/webhook.ts', () => {
 					handle: () => {},
 					secret: 'any_secret'
 				})
-			}).toThrowError(InstanceNotSetError)
+			}).toThrowError(StripeNotSetError)
 		})
 
 		it('should throw if events length is 0', () => {
@@ -97,10 +98,6 @@ describe('src/stripe/webhook.ts', () => {
 	describe('webhook.handle()', () => {
 		Webhook.Stripe = new Stripe('any_secret')
 
-		const constructEvent = vi.fn()
-
-		Webhook.Stripe.webhooks.constructEvent = constructEvent
-
 		const webhook = new Webhook({
 			events: ['*'],
 			handle: () => {},
@@ -108,15 +105,16 @@ describe('src/stripe/webhook.ts', () => {
 		})
 
 		beforeEach(() => {
-			constructEvent.mockClear()
 			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
 			webhook['allEventsAllowed'] = true
 		})
 
 		it('should throw error if signature is invalid', async () => {
-			constructEvent.mockImplementation(() => {
-				throw new Error()
-			})
+			Webhook.Stripe.webhooks.constructEvent = vi
+				.fn()
+				.mockImplementationOnce(() => {
+					throw new Error()
+				})
 
 			await expect(
 				webhook.handle({ body: '', signature: '' })
@@ -124,7 +122,9 @@ describe('src/stripe/webhook.ts', () => {
 		})
 
 		it('should throw if event is invalid', async () => {
-			constructEvent.mockReturnValueOnce(undefined)
+			Webhook.Stripe.webhooks.constructEvent = vi
+				.fn()
+				.mockReturnValueOnce(undefined)
 
 			await expect(
 				webhook.handle({ body: '', signature: '' })
@@ -132,7 +132,9 @@ describe('src/stripe/webhook.ts', () => {
 		})
 
 		it('should throw if event is not allowed', async () => {
-			constructEvent.mockReturnValueOnce({ type: 'account.updated' })
+			Webhook.Stripe.webhooks.constructEvent = vi
+				.fn()
+				.mockReturnValueOnce({ type: 'account.updated' })
 
 			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
 			webhook['allEventsAllowed'] = false
@@ -143,7 +145,9 @@ describe('src/stripe/webhook.ts', () => {
 		})
 
 		it('should call handle function', async () => {
-			constructEvent.mockReturnValueOnce({ type: 'account.updated' })
+			Webhook.Stripe.webhooks.constructEvent = vi
+				.fn()
+				.mockReturnValueOnce({ type: 'account.updated' })
 
 			const handle = vi.fn()
 
@@ -156,6 +160,78 @@ describe('src/stripe/webhook.ts', () => {
 			})
 
 			expect(handle).toHaveBeenCalled()
+		})
+	})
+
+	describe('webhook.register()', () => {
+		Webhook.Stripe = new Stripe('any_secret')
+
+		const webhook = new Webhook({
+			events: ['*'],
+			handle: () => {},
+			secret: 'any_secret'
+		})
+
+		beforeEach(() => {
+			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
+			webhook['options'].url = 'https://example.com'
+		})
+
+		it('should throw if url is not passed', async () => {
+			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
+			webhook['options'].url = undefined
+
+			await expect(webhook.register()).rejects.toThrowError(URLRequiredError)
+		})
+
+		it('should throw if webhook creation fails', async () => {
+			Webhook.Stripe.webhookEndpoints.create = vi
+				.fn()
+				.mockImplementationOnce(() => {
+					throw new Error()
+				})
+
+			await expect(webhook.register()).rejects.toThrowError()
+		})
+
+		it('should return webhook', async () => {
+			Webhook.Stripe.webhookEndpoints.create = vi.fn().mockReturnValueOnce({
+				secret: 'created_secret'
+			})
+
+			await expect(webhook.register()).resolves.toEqual({
+				secret: 'created_secret'
+			})
+		})
+
+		it('should call webhookEndpoints.create with [*] if all events are allowed', async () => {
+			Webhook.Stripe.webhookEndpoints.create = vi.fn().mockReturnValueOnce({})
+
+			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
+			webhook['allEventsAllowed'] = true
+
+			await webhook.register()
+
+			expect(Webhook.Stripe.webhookEndpoints.create).toHaveBeenCalledWith({
+				enabled_events: ['*'],
+				url: 'https://example.com'
+			})
+		})
+
+		it('should call webhookEndpoints.create with passed events', async () => {
+			Webhook.Stripe.webhookEndpoints.create = vi.fn().mockReturnValueOnce({})
+
+			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
+			webhook['allEventsAllowed'] = false
+			// biome-ignore lint/complexity/useLiteralKeys: Without this, we wouldn't be able to get a private property
+			webhook['allowedEvents'] = ['account.updated']
+
+			await webhook.register()
+
+			expect(Webhook.Stripe.webhookEndpoints.create).toHaveBeenCalledWith({
+				enabled_events: ['account.updated'],
+				url: 'https://example.com'
+			})
 		})
 	})
 })

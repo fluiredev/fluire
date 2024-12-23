@@ -1,0 +1,21 @@
+---
+title: Features
+icon: sitemap
+---
+
+Features are a Stripe resource to represent the items, services or functionalities that you provide in your products. 
+You can create features and link them to your revenue model.
+
+## Creating a feature
+
+To create a new feature, import your `Fluire` instance and create a new instance of the `Feature` class.
+
+```typescript	
+// lib/features.ts
+import { fluire } from './fluire'
+
+const accessApiFeature = new fluire.stripe.Feature({
+  name: 'Access to the REST API',
+  key: 'access-api'
+})
+```

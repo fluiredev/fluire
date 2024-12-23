@@ -32,7 +32,7 @@
 		},
     {
       "group": "Stripe",
-      "pages": ["stripe/webhooks"]
+      "pages": ["stripe/features", "stripe/webhooks"]
     }
 	],
 	"footerSocials": {

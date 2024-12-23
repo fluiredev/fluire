@@ -1,13 +1,13 @@
-import { InstanceNotSetError } from './exceptions/instance-not-set'
 import { InvalidEventError } from './exceptions/invalid-event'
 import { InvalidEventTypeError } from './exceptions/invalid-event-type'
 import { InvalidEventsLengthError } from './exceptions/invalid-events-length'
+import { StripeNotSetError } from './exceptions/stripe-not-set'
+import { URLRequiredError } from './exceptions/url-required'
 import {
 	webhookAliases,
 	type WebhookAliases,
 	type WebhookEvent,
-	type WebhookEvents,
-	type WebhookKey
+	type WebhookEvents
 } from './webhook-events'
 
 import type Stripe from 'stripe'
@@ -31,6 +31,7 @@ type WebhookOptions<
 	}: ExtractEventType<T[number]> &
 		WebhookHandlerFnParams) => void | Promise<void>
 	secret: string
+	url?: string
 }
 
 type HandleFnParams = {
@@ -43,16 +44,13 @@ export class Webhook<
 > {
 	private allEventsAllowed = false
 	private allowedEvents: (keyof WebhookEvents | keyof WebhookAliases)[] = []
-	private readonly instance: Stripe
 
 	public static Stripe: Stripe
 
 	public constructor(private readonly options: WebhookOptions<T>) {
 		if (!Webhook.Stripe) {
-			throw new InstanceNotSetError()
+			throw new StripeNotSetError()
 		}
-
-		this.instance = Webhook.Stripe
 
 		if (options.events.length === 0) {
 			throw new InvalidEventsLengthError()
@@ -76,7 +74,7 @@ export class Webhook<
 	}
 
 	public async handle({ body, signature }: HandleFnParams): Promise<void> {
-		const event = this.instance.webhooks.constructEvent(
+		const event = Webhook.Stripe.webhooks.constructEvent(
 			body,
 			signature,
 			this.options.secret
@@ -93,8 +91,24 @@ export class Webhook<
 		await this.options.handle({
 			event: event.type,
 			payload: event.data,
-			stripe: this.instance
+			stripe: Webhook.Stripe
 			// biome-ignore lint/suspicious/noExplicitAny: Unfornately, the type is too complex to be inferred
 		} as any)
+	}
+
+	public async register(): Promise<Stripe.WebhookEndpoint> {
+		if (!this.options.url) {
+			throw new URLRequiredError()
+		}
+
+		const webhook = await Webhook.Stripe.webhookEndpoints.create({
+			enabled_events: this.allEventsAllowed
+				? ['*']
+				: (this
+						.allowedEvents as Stripe.WebhookEndpointCreateParams.EnabledEvent[]),
+			url: this.options.url
+		})
+
+		return webhook
 	}
 }
