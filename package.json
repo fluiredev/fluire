@@ -1,8 +1,11 @@
 {
 	"name": "@fluire/repository",
 	"description": "Your Payments-as-Code solution",
-  "type": "module",
+	"type": "module",
 	"packageManager": "pnpm@9.15.0",
+	"scripts": {
+		"test": "turbo test"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"turbo": "2.3.3"
