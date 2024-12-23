@@ -1,0 +1,58 @@
+---
+title: Installation
+---
+
+To install Fluire in your application, you need to have the following prerequisites:
+
+- A [Stripe Account](https://stripe.com)
+- [Node.js](https://nodejs.org) or any other JavaScript runtime compatible with Stripe SDK
+- [npm](https://www.npmjs.com) or any other package manager compatible with Node.js (or your runtime)
+
+## Installation
+
+To install Fluire in your application, open your terminal and run the following command:
+
+<CodeGroup>
+
+```bash npm
+npm i fluire
+```
+
+```bash yarn
+yarn add fluire
+```
+
+```bash pnpm
+pnpm add fluire
+```
+
+```bash bun
+bun add fluire
+```
+
+</CodeGroup>
+
+## Configuration
+
+To configure Fluire in your application, you need to provide a Stripe secret key. If you don't know how to find your key, you can follow the [official documentation](https://stripe.com/docs/keys).
+
+Save your Stripe secret key in a secure location and never expose it in your client-side code.
+
+```env
+STRIPE_SECRET_KEY=sk_**************
+```
+
+## Usage
+
+Now, you can import Fluire in your application and start using it.
+
+```typescript
+// lib/fluire.ts
+import { Fluire } from 'fluire'
+
+const fluire = new Fluire({
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY
+  }
+})
+```

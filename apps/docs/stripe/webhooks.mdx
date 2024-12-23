@@ -1,0 +1,49 @@
+---
+title: Webhooks
+description: Type-safe webhooks
+icon: webhook
+---
+
+Fluire provides a type-safe way to handle webhooks from Stripe. To use webhooks in your application, you need to create a new instance of the `Webhook` class and pass the Stripe webhook secret key.
+
+Be sure you already have a Fluire instance in your application. If you don't have one, you can follow the [installation guide](/installation).
+
+```typescript
+// lib/webhooks.ts
+import { fluire } from './fluire'
+
+export const webhook = new fluire.stripe.Webhook({
+  events: ['invoice.*', 'checkout.*'],
+  secret: process.env.STRIPE_WEBHOOK_SECRET,
+  handle: async ({ event, payload, stripe }) => {
+    console.log('Received event:', event)
+
+    if (event === 'invoice.paid') {
+      // Payload is a Stripe.InvoicePaidEvent.Data
+    }
+  }
+})
+```
+
+Now you need to create a new endpoint in your application to receive the webhook events. You can use any web framework you want, but for this example, we'll use [Next.js](https://nextjs.org).
+
+```typescript
+// app/api/webhook/route.ts
+import { webhook } from '@/lib/webhooks'
+
+export async function POST(request: Request) {
+  // You need to pass the request body and the 
+  // Stripe-Signature header so Stripe can validate the request
+  const body = await request.text()
+  const signature = request.headers.get('Stripe-Signature')
+
+  try {
+    await webhook.handle({ body, signature })
+  } catch (err) {
+    console.error(err)
+    return new Response('Error', { status: 400 })
+  }
+
+  return new Response('OK')
+}
+```

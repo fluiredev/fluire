@@ -28,8 +28,12 @@
 	"navigation": [
 		{
 			"group": "Get Started",
-			"pages": ["introduction"]
-		}
+			"pages": ["introduction", "installation"]
+		},
+    {
+      "group": "Stripe",
+      "pages": ["stripe/webhooks"]
+    }
 	],
 	"footerSocials": {
 		"github": "https://github.com/fluiredev/fluire"
