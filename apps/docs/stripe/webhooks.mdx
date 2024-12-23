@@ -4,9 +4,15 @@ description: Type-safe webhooks
 icon: webhook
 ---
 
-Fluire provides a type-safe way to handle webhooks from Stripe. To use webhooks in your application, you need to create a new instance of the `Webhook` class and pass the Stripe webhook secret key.
+Fluire provides a type-safe way to handle webhooks from Stripe. To use webhooks in your application, you need to create a new instance of the `Webhook` class and pass some configuration options.
 
+<Warning>
 Be sure you already have a Fluire instance in your application. If you don't have one, you can follow the [installation guide](/installation).
+</Warning>
+
+- `events`: An array of events you want to listen to. We recommend using the wildcard `*` to listen to all events. It also blocks other events that are not in the list, so be sure to include all the events you want to listen to.
+- `secret`: The webhook secret you can find when you create your webhook (e.g., `whsec_**************`).
+- `handle`: A function that receives the event name, the payload, and the Stripe instance. Where you can handle the event and do whatever you want.
 
 ```typescript
 // lib/webhooks.ts
