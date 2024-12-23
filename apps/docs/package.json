@@ -1,0 +1,7 @@
+{
+	"name": "@fluire/docs",
+	"description": "Documentation for Fluire",
+	"scripts": {
+		"dev": "mintlify dev"
+	}
+}

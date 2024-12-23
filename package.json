@@ -4,6 +4,7 @@
 	"type": "module",
 	"packageManager": "pnpm@9.15.0",
 	"scripts": {
+		"dev": "turbo dev",
 		"test": "turbo test"
 	},
 	"devDependencies": {
