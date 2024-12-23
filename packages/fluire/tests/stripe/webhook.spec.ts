@@ -114,7 +114,9 @@ describe('src/stripe/webhook.ts', () => {
 		})
 
 		it('should throw error if signature is invalid', async () => {
-			constructEvent.mockReturnValueOnce(undefined)
+			constructEvent.mockImplementation(() => {
+				throw new Error()
+			})
 
 			await expect(
 				webhook.handle({ body: '', signature: '' })
