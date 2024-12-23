@@ -1,6 +1,6 @@
 {
 	"$schema": "https://mintlify.com/schema.json",
-	"name": "Fliore",
+	"name": "Fluire",
 	"logo": {
 		"dark": "/logo/dark.svg",
 		"light": "/logo/light.svg"
@@ -28,7 +28,7 @@
 	"navigation": [
 		{
 			"group": "Get Started",
-			"pages": ["introduction", "quickstart", "development"]
+			"pages": ["introduction"]
 		}
 	],
 	"footerSocials": {
