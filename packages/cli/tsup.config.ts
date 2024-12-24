@@ -8,5 +8,6 @@ export default defineConfig({
 	outDir: 'dist',
 	dts: true,
 	minify: true,
-	target: 'esnext'
+	target: 'esnext',
+	external: ['fluire', 'stripe', 'esbuild']
 })

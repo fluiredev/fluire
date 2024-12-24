@@ -1,2 +1,5 @@
 /dist
 /coverage
+
+# This files are only for tests here
+fluire.config.*

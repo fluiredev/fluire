@@ -1,24 +1,10 @@
-import 'dotenv/config'
+import { wh } from './webhooks.js'
+
 import { serve } from '@hono/node-server'
-import { Fluire } from 'fluire'
+import 'dotenv/config'
 import { Hono } from 'hono'
 
 const app = new Hono()
-
-const fluire = new Fluire({
-	stripe: {
-		secretKey: process.env.STRIPE_SECRET_KEY as string
-	}
-})
-
-const wh = new fluire.stripe.Webhook({
-	events: ['invoice.paid'],
-	handle: async ({ event, payload }) => {
-		console.log('Event:', event)
-		console.log('Payload:', payload)
-	},
-	secret: process.env.STRIPE_WEBHOOK_SECRET as string
-})
 
 app.post('/webhook', async (c) => {
 	try {

@@ -1,3 +1,5 @@
+import { getFluireConfig } from '~/lib/fluire-config'
+
 import { Command } from 'commander'
 
 export const migrate = new Command()
@@ -11,4 +13,6 @@ export const stripeMigrate = migrate
 		'--destructive',
 		'Delete all existing data in Stripe and create new data (use with caution)'
 	)
-	.action(async () => {})
+	.action(async () => {
+		const config = await getFluireConfig()
+	})

@@ -26,8 +26,8 @@ importers:
         specifier: ^16.4.7
         version: 16.4.7
       fluire:
-        specifier: ^0.0.4
-        version: 0.0.4
+        specifier: ^0.0.11
+        version: 0.0.11
       hono:
         specifier: ^4.6.14
         version: 4.6.14
@@ -47,6 +47,9 @@ importers:
       commander:
         specifier: ^12.1.0
         version: 12.1.0
+      esbuild:
+        specifier: ^0.24.2
+        version: 0.24.2
     devDependencies:
       '@types/node':
         specifier: ^20.11.17
@@ -55,8 +58,8 @@ importers:
         specifier: 2.1.8
         version: 2.1.8(vitest@2.1.8(@types/node@20.17.10))
       fluire:
-        specifier: latest
-        version: 0.0.10
+        specifier: ^0.0.11
+        version: 0.0.11
       tsup:
         specifier: ^8.3.5
         version: 8.3.5(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)
@@ -999,11 +1002,8 @@ packages:
       picomatch:
         optional: true
 
-  fluire@0.0.10:
-    resolution: {integrity: sha512-l5ppAkn5TKMit7V5rCCAvRCO/WyDA70pJeUetF0VRt/48hsEf08S98hkSUUyWORgEziUJyZgzySX33iVxM1twA==}
-
-  fluire@0.0.4:
-    resolution: {integrity: sha512-ajcrEbfPkcweLzn/Sa/n1fXTQQCGoI2mGC6U6Rx2nyTuQwGs4y0ggBw9BAk774wiPLjU627fvQysMTOU2k8S+g==}
+  fluire@0.0.11:
+    resolution: {integrity: sha512-NO8f+nr/RiNEprwlsc7lfSJRz/qhHIvuYg2C+qBRfLkO1oMVjH2XCfcg3DClg47VsI02EDFh7g/HNZZFSM/WGQ==}
 
   foreground-child@3.3.0:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
@@ -2276,11 +2276,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
-  fluire@0.0.10:
-    dependencies:
-      stripe: 17.5.0
-
-  fluire@0.0.4:
+  fluire@0.0.11:
     dependencies:
       stripe: 17.5.0
 
