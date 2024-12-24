@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "composite": false,
+    "types": [
+      "vitest/globals"
+    ],
+    "baseUrl": ".",    
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    }
+  }
+}

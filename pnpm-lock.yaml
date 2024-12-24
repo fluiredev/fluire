@@ -15,6 +15,8 @@ importers:
         specifier: 2.3.3
         version: 2.3.3
 
+  apps/docs: {}
+
   examples/01-webhooks:
     dependencies:
       '@hono/node-server':
@@ -37,33 +39,39 @@ importers:
         specifier: ^4.7.1
         version: 4.19.2
 
-  examples/01-webhooks22:
+  packages/cli:
     dependencies:
-      '@hono/node-server':
-        specifier: ^1.13.7
-        version: 1.13.7(hono@4.6.14)
-      call-bind-apply-helpers:
-        specifier: ^1.0.1
-        version: 1.0.1
-      dotenv:
-        specifier: ^16.4.7
-        version: 16.4.7
-      fluire:
-        specifier: ^0.0.4
-        version: 0.0.4
-      hono:
-        specifier: ^4.6.14
-        version: 4.6.14
-      stripe:
-        specifier: ^17.5.0
-        version: 17.5.0
+      chalk:
+        specifier: ^5.4.1
+        version: 5.4.1
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
     devDependencies:
       '@types/node':
         specifier: ^20.11.17
         version: 20.17.10
-      tsx:
-        specifier: ^4.7.1
-        version: 4.19.2
+      '@vitest/coverage-istanbul':
+        specifier: 2.1.8
+        version: 2.1.8(vitest@2.1.8(@types/node@20.17.10))
+      fluire:
+        specifier: latest
+        version: 0.0.10
+      tsup:
+        specifier: ^8.3.5
+        version: 8.3.5(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)
+      type-fest:
+        specifier: ^4.30.2
+        version: 4.30.2
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.2
+      vite-tsconfig-paths:
+        specifier: ^5.1.4
+        version: 5.1.4(typescript@5.7.2)(vite@5.4.11(@types/node@20.17.10))
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.8(@types/node@20.17.10)
 
   packages/fluire:
     dependencies:
@@ -871,6 +879,10 @@ packages:
     resolution: {integrity: sha512-aGtmf24DW6MLHHG5gCx4zaI3uBq3KRtxeVs0DjFH6Z0rDNbsvTxFASFvdj79pxjxZ8/5u3PIiN3IwEIQkiiuPw==}
     engines: {node: '>=12'}
 
+  chalk@5.4.1:
+    resolution: {integrity: sha512-zgVZuo2WcZgfUEmsn6eO3kINexW8RAE4maiQ8QNs8CtpPCSyMiYsULR3HQYkm3w8FIA3SberyMJMSldGsW+U3w==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+
   check-error@2.1.1:
     resolution: {integrity: sha512-OAlb+T7V4Op9OwdkjmguYRqncdlx5JiofwOAUkmTF+jNdHwzTaTs4sRAGpzLF3oOz5xAyDGrPgeIDFQmDOTiJw==}
     engines: {node: '>= 16'}
@@ -885,6 +897,10 @@ packages:
 
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+
+  commander@12.1.0:
+    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+    engines: {node: '>=18'}
 
   commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
@@ -982,6 +998,9 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  fluire@0.0.10:
+    resolution: {integrity: sha512-l5ppAkn5TKMit7V5rCCAvRCO/WyDA70pJeUetF0VRt/48hsEf08S98hkSUUyWORgEziUJyZgzySX33iVxM1twA==}
 
   fluire@0.0.4:
     resolution: {integrity: sha512-ajcrEbfPkcweLzn/Sa/n1fXTQQCGoI2mGC6U6Rx2nyTuQwGs4y0ggBw9BAk774wiPLjU627fvQysMTOU2k8S+g==}
@@ -1425,6 +1444,10 @@ packages:
   turbo@2.3.3:
     resolution: {integrity: sha512-DUHWQAcC8BTiUZDRzAYGvpSpGLiaOQPfYXlCieQbwUvmml/LRGIe3raKdrOPOoiX0DYlzxs2nH6BoWJoZrj8hA==}
     hasBin: true
+
+  type-fest@4.30.2:
+    resolution: {integrity: sha512-UJShLPYi1aWqCdq9HycOL/gwsuqda1OISdBO3t8RlXQC4QvtuIz4b5FCfe2dQIWEpmlRExKmcTBfP1r9bhY7ig==}
+    engines: {node: '>=16'}
 
   typescript@5.7.2:
     resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
@@ -2100,6 +2123,8 @@ snapshots:
       loupe: 3.1.2
       pathval: 2.0.0
 
+  chalk@5.4.1: {}
+
   check-error@2.1.1: {}
 
   chokidar@4.0.3:
@@ -2111,6 +2136,8 @@ snapshots:
       color-name: 1.1.4
 
   color-name@1.1.4: {}
+
+  commander@12.1.0: {}
 
   commander@4.1.1: {}
 
@@ -2248,6 +2275,10 @@ snapshots:
   fdir@6.4.2(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
+
+  fluire@0.0.10:
+    dependencies:
+      stripe: 17.5.0
 
   fluire@0.0.4:
     dependencies:
@@ -2673,6 +2704,8 @@ snapshots:
       turbo-linux-arm64: 2.3.3
       turbo-windows-64: 2.3.3
       turbo-windows-arm64: 2.3.3
+
+  type-fest@4.30.2: {}
 
   typescript@5.7.2: {}
 

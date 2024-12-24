@@ -6,7 +6,7 @@ import { Stripe } from 'stripe'
 export class StripeClient {
 	private readonly stripe: Stripe
 
-	public constructor(key: string) {
+	public constructor(public readonly key: string) {
 		this.stripe = new Stripe(key)
 
 		Feature.Stripe = this.stripe

@@ -1,0 +1,102 @@
+---
+title: Migrations
+icon: screwdriver-wrench
+---
+
+Migrations enable you to manage the changes in your 
+<Tooltip tip="Payment Service Provider - Stripe, PayPal, etc.">PSP</Tooltip>
+via code. You can create, update, and delete resources like products, prices, 
+and plans using migrations.
+
+## Installation
+
+To start using migrations, install Fluire CLI:
+
+<CodeGroup>
+
+```bash npm
+npm i @fluire/cli -g
+```
+
+```bash yarn
+yarn global add @fluire/cli
+```
+
+```bash pnpm
+pnpm add @fluire/cli -g
+```
+
+```bash bun
+bun add @fluire/cli -g
+```
+
+</CodeGroup>
+
+## Configuration
+
+To configure Fluire CLI, create a new `fluire.config.ts` in the root of your
+project and add pass your `Fluire` instance to the `defineConfig` function.
+
+```typescript
+// fluire.config.ts
+import { defineConfig } from 'fluire'
+import { fluire } from './lib/fluire'
+
+export default defineConfig({
+  fluire,
+})
+```
+
+## Stripe
+
+You can enable Stripe migrations by passing the `stripe` property to the
+`defineConfig` function with some configuration options.
+
+- `webhooks`: The glob pattern of your webhooks files.
+- `products`: The glob pattern of your products files.
+- `features`: The glob pattern of your features files.
+
+```typescript
+// fluire.config.ts
+import { defineConfig } from 'fluire'
+import { fluire } from './lib/fluire'
+
+export default defineConfig({
+  fluire,
+  stripe: {
+    webhooks: 'lib/webhooks/*.ts',
+    products: 'lib/products/*.ts',
+    features: 'lib/features/*.ts',
+  },
+})
+```
+
+Running the migration command will create the resources in the Stripe API.
+
+```bash
+fluire migrate stripe
+```
+
+### Destructive
+
+To delete the resources and create again, you can use the `--destructive` flag.
+
+```bash
+fluire migrate stripe --destructive
+```
+
+<Warning>
+Be careful when using the `--destructive` flag, as it will delete all the 
+previous resources in the Stripe API.
+</Warning>
+
+### Webhooks 
+
+When you create webhooks, the CLI will reply the secrets to you, so you can use 
+them in your application.
+
+```bash
+fluire migrate stripe
+
+# Webhook created successfully! Secret: whsec_**************
+```
