@@ -57,9 +57,7 @@ export async function loadWebhooks(
 			}>(file, code, isESM)
 
       for (const [key, value] of Object.entries(webhooks)) {
-        if (typeof value instanceof Webhook) {
-          
-        }
+        
       }
 		}
 	}
