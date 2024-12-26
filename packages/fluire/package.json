@@ -18,6 +18,10 @@
 		"./config": {
 			"import": "./dist/config.js",
 			"require": "./dist/config.cjs"
+		},
+		"./stripe": {
+			"import": "./dist/stripe/index.js",
+			"require": "./dist/stripe/index.cjs"
 		}
 	},
 	"author": {

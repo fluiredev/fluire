@@ -22,7 +22,7 @@ function main() {
 
 	program.addCommand(migrate)
 
-	program.parse()
+	program.parse(process.argv)
 }
 
 main()
