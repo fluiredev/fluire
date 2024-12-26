@@ -1,15 +1,14 @@
 import { importFile, isFilePathESM } from './import-file'
+import { externalizeDeps } from './fluire-config'
 
 import { build } from 'esbuild'
-import type { Fluire } from 'fluire'
+import { Webhook } from 'fluire/stripe'
 import { glob } from 'glob'
 import nodePath from 'node:path'
 
-type Webhook = Fluire['stripe']['Webhook']
-
 export async function loadWebhooks(
 	path: string[] | string | true
-): Promise<Webhook[]> {
+): Promise<Webhook<any>[]> {
 	let paths: string[] = []
 
 	if (typeof path === 'string') {
@@ -21,7 +20,7 @@ export async function loadWebhooks(
 		paths = ['lib/webhooks.ts']
 	}
 
-	const webhooks: Webhook[] = []
+	const webhookList: Webhook<any>[] = []
 
 	for (const path of paths) {
 		const files = glob.sync(path)
@@ -41,7 +40,7 @@ export async function loadWebhooks(
 				sourcemap: 'inline',
 				sourceRoot: `${nodePath.dirname(file)}${nodePath.sep}`,
 				metafile: true,
-				external: ['fluire', 'stripe', 'esbuild']
+				plugins: externalizeDeps(isESM, false, file)
 			})
 
 			const [bundled] = result.outputFiles
@@ -56,11 +55,13 @@ export async function loadWebhooks(
 				[key: string]: unknown
 			}>(file, code, isESM)
 
-      for (const [key, value] of Object.entries(webhooks)) {
-        
-      }
+			for (const [, value] of Object.entries(webhooks)) {
+				if (value instanceof Webhook) {
+					webhookList.push(value)
+				}
+			}
 		}
 	}
 
-	return []
+	return webhookList
 }

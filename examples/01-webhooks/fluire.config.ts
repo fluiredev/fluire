@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { fluire } from './src/fluire.js'
 
 import { defineConfig } from 'fluire/config'

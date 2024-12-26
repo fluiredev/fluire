@@ -96,12 +96,32 @@ export class Webhook<
 		} as any)
 	}
 
+	public get url(): string | undefined {
+		return this.options.url
+	}
+
 	public async register(): Promise<Stripe.WebhookEndpoint> {
 		if (!this.options.url) {
 			throw new URLRequiredError()
 		}
 
 		const webhook = await Webhook.Stripe.webhookEndpoints.create({
+			enabled_events: this.allEventsAllowed
+				? ['*']
+				: (this
+						.allowedEvents as Stripe.WebhookEndpointCreateParams.EnabledEvent[]),
+			url: this.options.url
+		})
+
+		return webhook
+	}
+
+	public async update(id: string): Promise<Stripe.WebhookEndpoint> {
+		if (!this.options.url) {
+			throw new URLRequiredError()
+		}
+
+		const webhook = await Webhook.Stripe.webhookEndpoints.update(id, {
 			enabled_events: this.allEventsAllowed
 				? ['*']
 				: (this

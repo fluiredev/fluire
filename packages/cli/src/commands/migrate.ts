@@ -1,9 +1,9 @@
 import { getFluireConfig } from '~/lib/fluire-config'
 import { danger, log } from '~/lib/logger'
+import { loadWebhooks } from '~/lib/loaders'
 
 import { Command } from 'commander'
 import Stripe from 'stripe'
-import { loadWebhooks } from '~/lib/loaders'
 
 export const migrate = new Command()
 	.name('migrate')
@@ -39,7 +39,7 @@ export const stripeMigrate = migrate
 			if (config.stripe.webhooks) {
 				log('Migrating webhooks...')
 
-				const webhooks = await loadWebhooks(config.stripe.webhooks)
+				const loadedWebhooks = await loadWebhooks(config.stripe.webhooks)
 				let registeredWebhooks: Stripe.WebhookEndpoint[] = []
 
 				while (true) {
@@ -54,7 +54,27 @@ export const stripeMigrate = migrate
 					if (!currentItems.has_more) break
 				}
 
-				for (const webhook of registeredWebhooks) {
+				for (const webhook of loadedWebhooks) {
+					if (!webhook.url) {
+						danger('Webhook does not have a URL. Skipping...')
+						continue
+					}
+
+					const existingWebhook = registeredWebhooks.find(
+						(registered) => registered.url === webhook.url
+					)
+
+					if (existingWebhook) {
+						log(`Updating webhook ${webhook.url}...`)
+
+						await webhook.update(existingWebhook.id)
+					} else {
+						log(`Registering webhook ${webhook.url}...`)
+
+						const { secret } = await webhook.register()
+
+						log(`Webhook  registered with secret ${secret} - Save it securely!`)
+					}
 				}
 			}
 		}

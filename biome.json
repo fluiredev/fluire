@@ -6,8 +6,7 @@
 		"useIgnoreFile": false
 	},
 	"files": {
-		"ignoreUnknown": false,
-		"ignore": []
+		"ignoreUnknown": false
 	},
 	"formatter": {
 		"enabled": true,
@@ -18,6 +17,7 @@
 	},
 	"linter": {
 		"enabled": true,
+
 		"rules": {
 			"recommended": true
 		}
@@ -28,5 +28,17 @@
 			"semicolons": "asNeeded",
 			"trailingCommas": "none"
 		}
-	}
+	},
+	"overrides": [
+		{
+			"include": ["packages/cli/src/lib"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noExplicitAny": "off"
+					}
+				}
+			}
+		}
+	]
 }

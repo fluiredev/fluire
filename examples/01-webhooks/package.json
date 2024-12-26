@@ -2,15 +2,17 @@
   "name": "01-webhooks",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "migrate": "fluire migrate stripe"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
     "dotenv": "^16.4.7",
-    "fluire": "^0.0.11",
+    "fluire": "^0.0.12",
     "hono": "^4.6.14"
   },
   "devDependencies": {
+    "@fluire/cli": "workspace:*",
     "@types/node": "^20.11.17",
     "tsx": "^4.7.1"
   }

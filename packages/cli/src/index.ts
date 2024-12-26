@@ -1,4 +1,4 @@
-#!usr/bin/env node
+#!/usr/bin/env node
 
 import { migrate } from './commands/migrate'
 import { getPackageJSON } from './lib/package'
