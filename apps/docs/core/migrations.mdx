@@ -39,7 +39,7 @@ project and add pass your `Fluire` instance to the `defineConfig` function.
 
 ```typescript
 // fluire.config.ts
-import { defineConfig } from 'fluire'
+import { defineConfig } from 'fluire/config'
 import { fluire } from './lib/fluire'
 
 export default defineConfig({
@@ -58,7 +58,7 @@ You can enable Stripe migrations by passing the `stripe` property to the
 
 ```typescript
 // fluire.config.ts
-import { defineConfig } from 'fluire'
+import { defineConfig } from 'fluire/config'
 import { fluire } from './lib/fluire'
 
 export default defineConfig({

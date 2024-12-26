@@ -1,7 +1,8 @@
+import 'dotenv/config'
+
 import { wh } from './webhooks.js'
 
 import { serve } from '@hono/node-server'
-import 'dotenv/config'
 import { Hono } from 'hono'
 
 const app = new Hono()

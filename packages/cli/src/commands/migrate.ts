@@ -54,6 +54,14 @@ export const stripeMigrate = migrate
 					if (!currentItems.has_more) break
 				}
 
+				if (options.destructive) {
+					log('Deleting existing webhooks...')
+
+					for (const webhook of registeredWebhooks) {
+						await stripe.webhookEndpoints.del(webhook.id)
+					}
+				}
+
 				for (const webhook of loadedWebhooks) {
 					if (!webhook.url) {
 						danger('Webhook does not have a URL. Skipping...')
@@ -64,16 +72,18 @@ export const stripeMigrate = migrate
 						(registered) => registered.url === webhook.url
 					)
 
-					if (existingWebhook) {
+					if (!options.destructive && existingWebhook) {
 						log(`Updating webhook ${webhook.url}...`)
 
 						await webhook.update(existingWebhook.id)
 					} else {
 						log(`Registering webhook ${webhook.url}...`)
 
-						const { secret } = await webhook.register()
+						const { secret, id } = await webhook.register()
 
-						log(`Webhook  registered with secret ${secret} - Save it securely!`)
+						log(
+							`Webhook ${id} registered with secret ${secret} - Save it securely!`
+						)
 					}
 				}
 			}

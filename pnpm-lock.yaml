@@ -26,8 +26,8 @@ importers:
         specifier: ^16.4.7
         version: 16.4.7
       fluire:
-        specifier: ^0.0.12
-        version: 0.0.12
+        specifier: ^0.0.13
+        version: 0.0.13
       hono:
         specifier: ^4.6.14
         version: 4.6.14
@@ -67,8 +67,8 @@ importers:
         specifier: 2.1.8
         version: 2.1.8(vitest@2.1.8(@types/node@20.17.10))
       fluire:
-        specifier: ^0.0.12
-        version: 0.0.12
+        specifier: ^0.0.13
+        version: 0.0.13
       tsup:
         specifier: ^8.3.5
         version: 8.3.5(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)
@@ -1011,8 +1011,8 @@ packages:
       picomatch:
         optional: true
 
-  fluire@0.0.12:
-    resolution: {integrity: sha512-D/dmargCC3tFu48fXdTJoD04C6G7zc+P3lIZoreC5gXFeVoY9q341rrMNNsXLwbEFNeTIX4qn/TX1l7Poe08Cg==}
+  fluire@0.0.13:
+    resolution: {integrity: sha512-oj5g2E6RRqwHLydy85hIEkDOscjBE1DQz8IHzpb2zGJ0FVgUl8QpDU7R4SGPQ/p2BnOGoD5wmYAcYru5Fsc93w==}
 
   foreground-child@3.3.0:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
@@ -2306,7 +2306,7 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
-  fluire@0.0.12:
+  fluire@0.0.13:
     dependencies:
       stripe: 17.5.0
 

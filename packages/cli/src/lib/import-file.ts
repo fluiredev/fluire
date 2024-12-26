@@ -46,7 +46,6 @@ export async function importFile<T>(
 				await fsp.mkdir(path.resolve(nodeModulesDir, '.fluire-temp/'), {
 					recursive: true
 				})
-				// biome-ignore lint/suspicious/noExplicitAny: Error is caught and handled
 			} catch (e: any) {
 				if (e.code === 'EACCES') {
 					nodeModulesDir = undefined

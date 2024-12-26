@@ -7,5 +7,5 @@ export const wh = new fluire.stripe.Webhook({
 		console.log('Payload:', payload)
 	},
 	secret: process.env.STRIPE_WEBHOOK_SECRET as string,
-	url: 'http://localhost:3000/webhook'
+	url: process.env.STRIPE_WEBHOOK_URL as string
 })

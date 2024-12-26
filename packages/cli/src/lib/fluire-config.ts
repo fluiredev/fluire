@@ -44,7 +44,7 @@ export function isBuiltin(id: string): boolean {
 const defaultExtensions = ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
 
 // No way, GitHub Copilot just threw this code and it works 😭
-// I don't even know what it does
+// It will probably break in the future
 export function externalizeDeps(
 	isESM: boolean,
 	isModuleSyncConditionEnabled: boolean,

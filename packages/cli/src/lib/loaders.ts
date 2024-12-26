@@ -1,5 +1,6 @@
 import { importFile, isFilePathESM } from './import-file'
 import { externalizeDeps } from './fluire-config'
+import { log } from './logger'
 
 import { build } from 'esbuild'
 import { Webhook } from 'fluire/stripe'
@@ -26,6 +27,7 @@ export async function loadWebhooks(
 		const files = glob.sync(path)
 
 		for (const file of files) {
+			log(`Loading webhooks from ${file}`)
 			const isESM = isFilePathESM(file)
 
 			const result = await build({
