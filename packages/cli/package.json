@@ -44,7 +44,6 @@
 	"devDependencies": {
 		"@types/node": "^20.11.17",
 		"@vitest/coverage-istanbul": "2.1.8",
-		"fluire": "^0.0.13",
 		"tsup": "^8.3.5",
 		"type-fest": "^4.30.2",
 		"typescript": "^5.7.2",
@@ -64,6 +63,7 @@
 		"chalk": "^5.4.1",
 		"commander": "^12.1.0",
 		"esbuild": "^0.24.2",
+		"fluire": "^0.0.15",
 		"glob": "^11.0.0",
 		"stripe": "^17.5.0"
 	}
