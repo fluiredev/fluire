@@ -40,6 +40,7 @@ jobs:
         working-directory: packages/fluire
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - run: pnpm install
       - run: pnpm build
         working-directory: packages/cli
       - run: pnpm publish --no-git-checks

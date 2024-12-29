@@ -1,7 +1,7 @@
 {
 	"name": "@fluiredev/cli",
 	"description": "Migration CLI helper for Fluire - Check our main package at https://npmjs.com/fluire",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"type": "module",
 	"main": "dist/index.js",
 	"files": [
@@ -63,7 +63,7 @@
 		"chalk": "^5.4.1",
 		"commander": "^12.1.0",
 		"esbuild": "^0.24.2",
-		"fluire": "^0.0.15",
+		"fluire": "latest",
 		"glob": "^11.0.0",
 		"stripe": "^17.5.0"
 	}
