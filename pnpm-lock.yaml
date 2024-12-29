@@ -54,7 +54,7 @@ importers:
         specifier: ^0.24.2
         version: 0.24.2
       fluire:
-        specifier: ^0.0.16
+        specifier: latest
         version: 0.0.16
       glob:
         specifier: ^11.0.0
