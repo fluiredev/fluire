@@ -1,6 +1,6 @@
 import { importFile, isFilePathESM } from './import-file'
 import { externalizeDeps } from './fluire-config'
-import { log } from './logger'
+import { debug, log } from './logger'
 
 import { build } from 'esbuild'
 import { Webhook } from 'fluire/stripe'
@@ -8,7 +8,8 @@ import { glob } from 'glob'
 import nodePath from 'node:path'
 
 export async function loadWebhooks(
-	path: string[] | string | true
+	path: string[] | string | true,
+	debugEnabled = false
 ): Promise<Webhook<any>[]> {
 	let paths: string[] = []
 
@@ -21,14 +22,20 @@ export async function loadWebhooks(
 		paths = ['lib/webhooks.ts']
 	}
 
+	if (debugEnabled) debug('Paths:', paths)
+
 	const webhookList: Webhook<any>[] = []
 
 	for (const path of paths) {
 		const files = glob.sync(path)
 
+		if (debugEnabled) debug('Files:', files)
+
 		for (const file of files) {
 			log(`Loading webhooks from ${file}`)
 			const isESM = isFilePathESM(file)
+
+			if (debugEnabled) debug('File is ESM:', isESM)
 
 			const result = await build({
 				absWorkingDir: process.cwd(),
@@ -58,6 +65,9 @@ export async function loadWebhooks(
 			}>(file, code, isESM)
 
 			for (const [, value] of Object.entries(webhooks)) {
+				if (debugEnabled)
+					debug('value instanceof Webhook:', value instanceof Webhook)
+
 				if (value instanceof Webhook) {
 					webhookList.push(value)
 				}

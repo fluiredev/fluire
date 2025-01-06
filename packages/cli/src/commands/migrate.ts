@@ -1,5 +1,5 @@
 import { getFluireConfig } from '~/lib/fluire-config'
-import { danger, log } from '~/lib/logger'
+import { danger, debug, log } from '~/lib/logger'
 import { loadWebhooks } from '~/lib/loaders'
 
 import { Command } from 'commander'
@@ -11,6 +11,7 @@ export const migrate = new Command()
 
 type Options = {
 	destructive: boolean
+	debug: boolean
 }
 
 async function migrateWebhooks(
@@ -21,7 +22,7 @@ async function migrateWebhooks(
 	try {
 		log('Migrating webhooks...')
 
-		const loadedWebhooks = await loadWebhooks(paths)
+		const loadedWebhooks = await loadWebhooks(paths, options.debug)
 		let registeredWebhooks: Stripe.WebhookEndpoint[] = []
 
 		while (true) {
@@ -30,15 +31,28 @@ async function migrateWebhooks(
 				starting_after: registeredWebhooks[registeredWebhooks.length - 1]?.id
 			})
 
+			if (options.debug)
+				debug(
+					'Current items:',
+					currentItems.data.map((item) => item.url).join(', ')
+				)
+
 			registeredWebhooks = registeredWebhooks.concat(currentItems.data)
 
 			if (!currentItems.has_more) break
 		}
 
+		if (options.debug)
+			debug(
+				'Registered webhooks:',
+				registeredWebhooks.map((webhook) => webhook.url)
+			)
+
 		if (options.destructive) {
 			log('Deleting existing webhooks...')
 
 			for (const webhook of registeredWebhooks) {
+				if (options.debug) debug('Deleting webhook:', webhook.id)
 				await stripe.webhookEndpoints.del(webhook.id)
 			}
 		}
@@ -69,6 +83,7 @@ async function migrateWebhooks(
 		}
 	} catch (error) {
 		if (error instanceof Error) {
+			if (options.debug) debug('Error migrating webhooks:', error.stack)
 			danger(`Error migrating webhooks: ${error.message}`)
 		}
 	}
@@ -81,6 +96,7 @@ export const stripeMigrate = migrate
 		'--destructive',
 		'Delete all existing data in Stripe and create new data (use with caution)'
 	)
+	.option('--debug', 'Show debug logs for troubleshooting purposes')
 	.action(async (options) => {
 		if (options.destructive) {
 			danger(
