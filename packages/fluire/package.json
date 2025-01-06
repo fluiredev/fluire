@@ -1,7 +1,7 @@
 {
 	"name": "fluire",
 	"description": "Your Payments-as-Code solution",
-	"version": "0.0.18",
+	"version": "0.0.19",
 	"type": "module",
 	"main": "dist/index.js",
 	"files": ["dist/", "README.md", "package.json"],
