@@ -3,7 +3,7 @@ import { externalizeDeps } from './fluire-config'
 import { debug, log } from './logger'
 
 import { build } from 'esbuild'
-import { Webhook } from 'fluire/stripe'
+import type { Webhook } from 'fluire/stripe'
 import { glob } from 'glob'
 import nodePath from 'node:path'
 
@@ -65,11 +65,15 @@ export async function loadWebhooks(
 			}>(file, code, isESM)
 
 			for (const [, value] of Object.entries(webhooks)) {
-				if (debugEnabled)
-					debug('value instanceof Webhook:', value instanceof Webhook)
+				const isWebhook =
+					value &&
+					typeof value === 'object' &&
+					'__component' in value &&
+					value.__component === 'fluire:stripe:webhook'
+				if (debugEnabled) debug('Value:', value, 'is Webhook:', isWebhook)
 
-				if (value instanceof Webhook) {
-					webhookList.push(value)
+				if (isWebhook) {
+					webhookList.push(value as unknown as Webhook<any>)
 				}
 			}
 		}

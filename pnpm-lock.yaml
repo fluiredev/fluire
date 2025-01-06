@@ -26,8 +26,8 @@ importers:
         specifier: ^16.4.7
         version: 16.4.7
       fluire:
-        specifier: ^0.0.16
-        version: 0.0.16
+        specifier: workspace:*
+        version: link:../../packages/fluire
       hono:
         specifier: ^4.6.14
         version: 4.6.14

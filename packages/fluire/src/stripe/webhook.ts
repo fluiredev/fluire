@@ -41,7 +41,9 @@ type HandleFnParams = {
 
 export class Webhook<
 	T extends Array<keyof WebhookEvents | keyof WebhookAliases>
-> {
+> {	
+	private __component = 'fluire:stripe:webhook'
+
 	private allEventsAllowed = false
 	private allowedEvents: (keyof WebhookEvents | keyof WebhookAliases)[] = []
 
